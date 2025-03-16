@@ -1,6 +1,8 @@
 package daniel.nuud.plane_flights.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,13 +22,23 @@ import java.util.List;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
+
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
+
+    @NotNull
+    @Size(min = 6, max = 20)
     private String password;
+
+    @Column(name = "phone_number", unique = true)
     private String phoneNumber;
 
     @Override
