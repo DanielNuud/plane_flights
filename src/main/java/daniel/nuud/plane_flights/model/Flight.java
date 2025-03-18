@@ -7,15 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "flights")
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
+@Table(name = "tables")
 public class Flight {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
 }
