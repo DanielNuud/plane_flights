@@ -35,7 +35,6 @@ public class User implements UserDetails {
     private String email;
 
     @NotNull
-    @Size(min = 6, max = 20)
     private String password;
 
     @Column(name = "phone_number", unique = true)
