@@ -3,29 +3,33 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Вход в систему</title>
+    <title>Login page</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 </head>
 <body>
 <div class="login-container">
-    <h2>Вход в систему</h2>
-    <form th:action="@{/templates/authentication/login}" method="post">
+    <h2>Login in System</h2>
+    <div th:if="${param.success}">
+        <p class="alert-success"> You successfully registered!</p>
+    </div>
+    <form th:action="@{login}" method="post">
         <div class="form-group">
-            <label for="username">Имя пользователя:</label>
-            <input type="text" id="username" name="username" placeholder="Введите имя пользователя" required>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="enter username here" required>
         </div>
         <div class="form-group">
-            <label for="password">Пароль:</label>
-            <input type="password" id="password" name="password" placeholder="Введите пароль" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="enter password here" required>
         </div>
         <div class="form-group">
-            <button type="submit">Войти</button>
+            <button type="submit">Enter</button>
         </div>
     </form>
+    <p>Dont have account? Please register</p>
+    <a href="/register">Registration</a>>
     <div th:if="${param.error}">
         <p class="error">Неверное имя пользователя или пароль.</p>
     </div>
-    <!-- Отображение сообщения об успешном выходе, если передан параметр logout -->
     <div th:if="${param.logout}">
         <p class="info">Вы успешно вышли из системы.</p>
     </div>
