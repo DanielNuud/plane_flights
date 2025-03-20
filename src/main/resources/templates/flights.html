@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Real-Time Flights</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    th {
+      background: #f2f2f2;
+      text-align: left;
+    }
+    tr:hover {
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+<h1>Real-Time Flights</h1>
+<table>
+  <thead>
+  <tr>
+    <th>Flight Date</th>
+    <th>Departure Airport</th>
+    <th>Departure Time</th>
+    <th>Arrival Airport</th>
+    <th>Arrival Time</th>
+    <th>Airline Name</th>
+    <th>Flight Number</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="flight : ${flights}">
+    <td th:text="${flight.flightDate}">Flight Date</td>
+    <td th:text="${flight.departure.departureAirport}">Departure Airport</td>
+    <td th:text="${flight.departure.departureTime}">Departure Time</td>
+    <td th:text="${flight.arrival.arrivalAirport}">Arrival Airport</td>
+    <td th:text="${flight.arrival.arrivalTime}">Arrival Time</td>
+    <td th:text="${flight.airline.airlineName}">Airline Name</td>
+    <td th:text="${flight.flight.flightNumber}">Flight Number</td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
