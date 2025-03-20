@@ -10,3 +10,7 @@ spring:
     url: jdbc:h2:mem:testdb
     username: sa
     password:
+
+aviationstack:
+  base-url: "https://api.aviationstack.com/v1"
+  access-key: "${ACCESS_KEY}"
