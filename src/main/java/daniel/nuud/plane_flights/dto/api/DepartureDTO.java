@@ -14,5 +14,5 @@ public class DepartureDTO {
     private String departureAirport;
 
     @JsonProperty("scheduled")
-    private Instant departureTime;
+    private String departureTime;
 }
