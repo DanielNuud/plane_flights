@@ -7,9 +7,10 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password:
+    url: jdbc:postgresql://localhost:5432/plane_flights
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
 
 aviationstack:
   base-url: "https://api.aviationstack.com/v1"
