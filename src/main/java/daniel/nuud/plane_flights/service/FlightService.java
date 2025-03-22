@@ -5,12 +5,14 @@ import daniel.nuud.plane_flights.model.Airport;
 import daniel.nuud.plane_flights.model.Flight;
 import daniel.nuud.plane_flights.repository.AirportRepository;
 import daniel.nuud.plane_flights.repository.FlightRepository;
+import daniel.nuud.plane_flights.service.api.AirportApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,7 +29,7 @@ public class FlightService {
     @Autowired
     private AirportRepository airportRepository;
 
-    public void getSearchedFlights() {
+    public void getFlights() {
         List<Flight> flights = flightRepository.findAll();
 
         Set<String> iataCodes = new HashSet<>();
@@ -63,6 +65,16 @@ public class FlightService {
 
             }
         }
+    }
 
+    public List<Flight> getSearchedFlights(String departureCity,
+                                           String arrivalCity,
+                                           String dateString) {
+        LocalDate localDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        Instant startOfDay = localDate.atStartOfDay(ZoneOffset.UTC).toInstant();
+        Instant startOfNextDay = localDate.plusDays(1).atStartOfDay(ZoneOffset.UTC).toInstant();
+
+        return flightRepository.findFlightsByCityAndDate(departureCity, arrivalCity, startOfDay, startOfNextDay);
     }
 }
