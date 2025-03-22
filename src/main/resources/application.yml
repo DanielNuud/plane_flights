@@ -17,4 +17,5 @@ aviationstack:
   access-key: "${ACCESS_KEY}"
 
 ninja-api:
+  base-url: "https://api.api-ninjas.com/v1"
   api-key: "${API_KEY}"
