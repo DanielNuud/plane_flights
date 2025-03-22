@@ -10,14 +10,12 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -85,6 +83,14 @@ public class FlightApiService {
                     flight.setAirlineName(flightDataDTO.getAirline().getAirlineName());
                 }
 
+                if (flightDataDTO.getDeparture().getIataCode() != null) {
+                    flight.setDepartureIataCode(flightDataDTO.getDeparture().getIataCode());
+                }
+
+                if (flightDataDTO.getArrival().getIataCode() != null) {
+                    flight.setArrivalIataCode(flightDataDTO.getArrival().getIataCode());
+                }
+
                 flightRepository.save(flight);
             });
         }
@@ -96,9 +102,11 @@ public class FlightApiService {
     }
 
     public Instant parseDateTime(String dateTimeString) {
+
         if (dateTimeString == null) {
             return null;
         }
+
         try {
             return OffsetDateTime.parse(dateTimeString).toInstant();
         } catch (DateTimeParseException e) {

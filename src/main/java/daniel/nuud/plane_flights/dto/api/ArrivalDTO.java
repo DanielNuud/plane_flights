@@ -13,4 +13,6 @@ public class ArrivalDTO {
     private String arrivalAirport;
     @JsonProperty("scheduled")
     private String arrivalTime;
+    @JsonProperty("iata")
+    private String iataCode;
 }

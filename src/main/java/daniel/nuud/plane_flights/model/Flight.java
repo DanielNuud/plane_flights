@@ -27,4 +27,6 @@ public class Flight {
     private Instant arrivalTime;
     private String airlineName;
     private String flightNumber;
+    private String arrivalIataCode;
+    private String departureIataCode;
 }
