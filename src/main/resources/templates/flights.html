@@ -42,12 +42,12 @@
   <tbody>
   <tr th:each="flight : ${flights}">
     <td th:text="${flight.flightDate}">Flight Date</td>
-    <td th:text="${flight.departure.departureAirport}">Departure Airport</td>
-    <td th:text="${flight.departure.departureTime}">Departure Time</td>
-    <td th:text="${flight.arrival.arrivalAirport}">Arrival Airport</td>
-    <td th:text="${flight.arrival.arrivalTime}">Arrival Time</td>
-    <td th:text="${flight.airline.airlineName}">Airline Name</td>
-    <td th:text="${flight.flight.flightNumber}">Flight Number</td>
+    <td th:text="${flight.departureAirport.city}">Departure Airport</td>
+    <td th:text="${flight.departureTime}">Departure Time</td>
+    <td th:text="${flight.arrivalAirport.city}">Arrival Airport</td>
+    <td th:text="${flight.arrivalTime}">Arrival Time</td>
+    <td th:text="${flight.airlineName}">Airline Name</td>
+    <td th:text="${flight.flightNumber}">Flight Number</td>
   </tr>
   </tbody>
 </table>
