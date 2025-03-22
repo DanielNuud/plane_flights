@@ -1,4 +1,4 @@
-package daniel.nuud.plane_flights.service;
+package daniel.nuud.plane_flights.service.api;
 
 import daniel.nuud.plane_flights.dto.api.FlightDataDTO;
 import daniel.nuud.plane_flights.dto.api.FlightsResponseDTO;
@@ -43,6 +43,7 @@ public class FlightApiService {
                 .uri(uriBuilder -> uriBuilder
                         .path("/flights")
                         .queryParam("access_key", accessKey)
+                        .queryParam("limit", 25)
                         .build())
                 .retrieve()
                 .bodyToMono(FlightsResponseDTO.class)
@@ -64,13 +65,6 @@ public class FlightApiService {
                     flight.setFlightNumber(flightDataDTO.getFlight().getFlightNumber());
                 }
 
-                if (flightDataDTO.getArrival().getArrivalAirport() != null) {
-                    flight.setArrivalAirport(flightDataDTO.getArrival().getArrivalAirport());
-                }
-
-                if (flightDataDTO.getDeparture().getDepartureAirport() != null) {
-                    flight.setDepartureAirport(flightDataDTO.getDeparture().getDepartureAirport());
-                }
                 if (flightDataDTO.getDeparture().getDepartureTime() != null) {
                     flight.setDepartureTime(parseDateTime(flightDataDTO.getDeparture().getDepartureTime()));
                 }
