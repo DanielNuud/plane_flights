@@ -7,7 +7,6 @@ import daniel.nuud.plane_flights.repository.FlightRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import java.time.Instant;
@@ -36,7 +35,6 @@ public class FlightApiService {
                 .build();
     }
 
-    @Scheduled(fixedRate = 100000)
     @Cacheable(value = "flights", key = "'realTimeFlights'")
     public List<FlightDataDTO> getRealTimeFlights() {
         FlightsResponseDTO response = webClient.get()
