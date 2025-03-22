@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Flights</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+        }
+        .search-container {
+            margin: 40px auto;
+            max-width: 700px;
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .search-container h2 {
+            margin-bottom: 20px;
+        }
+        .search-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .search-form input,
+        .search-form select {
+            flex: 1 1 150px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .search-form button {
+            flex: 1 1 auto;
+            padding: 10px 20px;
+            border: none;
+            background: #0062cc;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .search-form button:hover {
+            background: #004da8;
+        }
+
+    </style>
+</head>
+<body>
+<div layout:fragment="content" class="mb-4">
+    <div class="search-container">
+        <h2>Find the Cheapest Flights</h2>
+        <form class="search-form" th:action="@{/flights}" method="GET">
+            <select name="departure" required>
+                <option value="" disabled selected>From (e.g. Helsinki)</option>
+                <option th:each="airport : ${airports}"
+                        th:value="${airport.iataCode}"
+                        th:text="${airport.city != null ? airport.city : airport.iataCode}">
+                </option>
+            </select>
+
+            <select name="arrival" required>
+                <option value="" disabled selected>To (e.g. London)</option>
+                <option th:each="airport : ${airports}"
+                        th:value="${airport.iataCode}"
+                        th:text="${airport.city != null ? airport.city : airport.iataCode}">
+                </option>
+            </select>
+
+            <input type="date" name="departureDate" placeholder="mm/dd/yyyy" required />
+
+            <select name="passengers">
+                <option value="1" selected>1 Passenger</option>
+                <option value="2">2 Passengers</option>
+                <option value="3">3 Passengers</option>
+                <option value="4">4 Passengers</option>
+            </select>
+
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
