@@ -15,3 +15,6 @@ spring:
 aviationstack:
   base-url: "https://api.aviationstack.com/v1"
   access-key: "${ACCESS_KEY}"
+
+ninja-api:
+  api-key: "${API_KEY}"
