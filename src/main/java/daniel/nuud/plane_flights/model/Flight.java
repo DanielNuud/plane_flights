@@ -21,12 +21,20 @@ public class Flight {
     private Long id;
 
     private Instant flightDate;
-    private String departureAirport;
     private Instant departureTime;
-    private String arrivalAirport;
     private Instant arrivalTime;
     private String airlineName;
     private String flightNumber;
-    private String arrivalIataCode;
+
     private String departureIataCode;
+    private String arrivalIataCode;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "departure_airport_id", referencedColumnName = "iataCode")
+    private Airport departureAirport;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "arrival_airport_id", referencedColumnName = "iataCode")
+    private Airport arrivalAirport;
 }
