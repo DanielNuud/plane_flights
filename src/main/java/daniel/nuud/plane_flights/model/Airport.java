@@ -19,8 +19,13 @@ public class Airport {
     private Long id;
 
     private String airportName;
+
+    @Column(unique = true)
     private String iataCode;
+
     private String countryName;
+
     private String region;
+
     private String city;
 }
