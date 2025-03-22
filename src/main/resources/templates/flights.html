@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
 <head>
   <meta charset="UTF-8">
   <title>Real-Time Flights</title>
@@ -24,6 +25,7 @@
   </style>
 </head>
 <body>
+<div layout:fragment="content" class="mb-4">
 <h1>Real-Time Flights</h1>
 <table>
   <thead>
@@ -49,5 +51,6 @@
   </tr>
   </tbody>
 </table>
+</div>
 </body>
 </html>
