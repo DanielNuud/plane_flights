@@ -46,7 +46,6 @@
         .search-form button:hover {
             background: #004da8;
         }
-
     </style>
 </head>
 <body>
@@ -54,20 +53,16 @@
     <div class="search-container">
         <h2>Find the Cheapest Flights</h2>
         <form class="search-form" th:action="@{/flights}" method="GET">
-            <select name="departure" required>
+            <select id="departure" name="departure" required>
                 <option value="" disabled selected>From (e.g. Helsinki)</option>
-                <option th:each="airport : ${airports}"
-                        th:value="${airport.iataCode}"
-                        th:text="${airport.city != null ? airport.city : airport.iataCode}">
+                <option th:each="airport : ${departureCities}"
+                        th:value="${airport}"
+                        th:text="${airport}">
                 </option>
             </select>
 
-            <select name="arrival" required>
+            <select id="arrival" name="arrival" required>
                 <option value="" disabled selected>To (e.g. London)</option>
-                <option th:each="airport : ${airports}"
-                        th:value="${airport.iataCode}"
-                        th:text="${airport.city != null ? airport.city : airport.iataCode}">
-                </option>
             </select>
 
             <input type="date" name="departureDate" placeholder="mm/dd/yyyy" required />

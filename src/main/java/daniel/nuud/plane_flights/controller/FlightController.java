@@ -28,13 +28,11 @@ public class FlightController {
 //    }
 
     @GetMapping("/flights")
-    public String searchFlights(@RequestParam String departure,
-                                @RequestParam String arrival,
-                                @RequestParam String departureDate,
-                                @RequestParam int passengers,
+    public String searchFlights(@RequestParam("departure")  String departure,
+                                @RequestParam("departureDate") String departureDate,
                                 Model model) {
 
-        List<Flight> flights = flightService.getSearchedFlights(departure, arrival, departureDate);
+        List<Flight> flights = flightService.getSearchedFlights(departure, departureDate);
         model.addAttribute("flights", flights);
         return "flights";
     }

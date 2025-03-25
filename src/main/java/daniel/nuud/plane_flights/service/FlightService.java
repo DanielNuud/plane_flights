@@ -68,13 +68,46 @@ public class FlightService {
     }
 
     public List<Flight> getSearchedFlights(String departureCity,
-                                           String arrivalCity,
                                            String dateString) {
         LocalDate localDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         Instant startOfDay = localDate.atStartOfDay(ZoneOffset.UTC).toInstant();
         Instant startOfNextDay = localDate.plusDays(1).atStartOfDay(ZoneOffset.UTC).toInstant();
 
-        return flightRepository.findFlightsByCityAndDate(departureCity, arrivalCity, startOfDay, startOfNextDay);
+        return flightRepository.findFlightsByCityAndDate(departureCity, startOfDay, startOfNextDay);
+    }
+
+    public List<String> findDistinctDepartureCities() {
+        return flightRepository.findDistinctDepartureCities();
+    }
+
+    public List<String> findDistinctArrivalCities() {
+        return flightRepository.findDistinctArrivalCities();
+    }
+
+    public void updateFlightAssociations() {
+        List<Flight> flights = flightRepository.findAll();
+
+        for (Flight flight : flights) {
+
+            if (flight.getDepartureIataCode() != null && flight.getDepartureAirport() == null) {
+                Airport depAirport = airportRepository.findByIataCode(flight.getDepartureIataCode());
+                if (depAirport != null) {
+                    flight.setDepartureAirport(depAirport);
+                }
+            }
+
+            if (flight.getArrivalIataCode() != null && flight.getArrivalAirport() == null) {
+                Airport arrAirport = airportRepository.findByIataCode(flight.getArrivalIataCode());
+                if (arrAirport != null) {
+                    flight.setArrivalAirport(arrAirport);
+                }
+            }
+            flightRepository.save(flight);
+        }
+    }
+
+    public List<Flight> getAllFlights() {
+        return flightRepository.findAll();
     }
 }

@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AirportRepository extends JpaRepository<Airport, Long> {
     boolean existsByIataCode(String iataCode);
+
+    Airport findByIataCode(String iataCode);
 }
