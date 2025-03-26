@@ -9,10 +9,16 @@ import java.time.Instant;
 @Getter
 @Setter
 public class ArrivalDTO {
+
     @JsonProperty("airport")
     private String arrivalAirport;
+
     @JsonProperty("scheduled")
     private String arrivalTime;
+
     @JsonProperty("iata")
     private String iataCode;
+
+    @JsonProperty("icao")
+    private String icaoCode;
 }

@@ -13,6 +13,9 @@ public class AirportDataDTO {
     @JsonProperty("iata")
     private String iataCode;
 
+    @JsonProperty("icao")
+    private String icaoCode;
+
     @JsonProperty("city")
     private String city;
 

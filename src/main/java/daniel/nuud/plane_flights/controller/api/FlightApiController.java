@@ -1,4 +1,4 @@
-package daniel.nuud.plane_flights.controller;
+package daniel.nuud.plane_flights.controller.api;
 
 import daniel.nuud.plane_flights.repository.FlightRepository;
 import org.springframework.beans.factory.annotation.Autowired;

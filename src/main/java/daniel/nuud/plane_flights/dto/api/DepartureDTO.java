@@ -18,4 +18,7 @@ public class DepartureDTO {
 
     @JsonProperty("scheduled")
     private String departureTime;
+
+    @JsonProperty("icao")
+    private String icaoCode;
 }

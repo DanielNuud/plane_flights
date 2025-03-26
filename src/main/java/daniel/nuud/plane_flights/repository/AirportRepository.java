@@ -5,8 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AirportRepository extends JpaRepository<Airport, Long> {
+public interface AirportRepository extends JpaRepository<Airport, String> {
     boolean existsByIataCode(String iataCode);
 
     Airport findByIataCode(String iataCode);
+
+    boolean existsByIcao(String icao);
+    Airport findByIcao(String icao);
 }

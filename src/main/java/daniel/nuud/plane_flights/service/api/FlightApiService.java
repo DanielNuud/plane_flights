@@ -83,6 +83,21 @@ public class FlightApiService {
                     flight.setArrivalIataCode(flightDataDTO.getArrival().getIataCode());
                 }
 
+                if (flightDataDTO.getAirline().getIata() != null) {
+                    flight.setAirlineIata(flightDataDTO.getAirline().getIata());
+                }
+
+                if (flightDataDTO.getAirline().getIcao() != null) {
+                    flight.setAirlineIcao(flightDataDTO.getAirline().getIcao());
+                }
+
+                if (flightDataDTO.getDeparture().getIcaoCode() != null) {
+                    flight.setDepartureIcaoCode(flightDataDTO.getDeparture().getIcaoCode());
+                }
+                if (flightDataDTO.getArrival().getIcaoCode() != null) {
+                    flight.setArrivalIcaoCode(flightDataDTO.getArrival().getIcaoCode());
+                }
+
                 flightRepository.save(flight);
             });
         }

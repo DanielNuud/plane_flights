@@ -26,15 +26,24 @@ public class Flight {
     private String airlineName;
     private String flightNumber;
 
+    private String airlineIata;
+    private String airlineIcao;
+
     private String departureIataCode;
+    private String departureIcaoCode;
     private String arrivalIataCode;
+    private String arrivalIcaoCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "departure_airport_id", referencedColumnName = "iataCode")
+    @JoinColumn(name = "departure_airport_id", referencedColumnName = "icao")
     private Airport departureAirport;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "arrival_airport_id", referencedColumnName = "iataCode")
+    @JoinColumn(name = "arrival_airport_id", referencedColumnName = "icao")
     private Airport arrivalAirport;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "airline_id", referencedColumnName = "icao")
+    private Airline airline;
 }

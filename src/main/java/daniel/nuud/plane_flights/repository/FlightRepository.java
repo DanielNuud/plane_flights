@@ -1,5 +1,6 @@
 package daniel.nuud.plane_flights.repository;
 
+import daniel.nuud.plane_flights.model.Airport;
 import daniel.nuud.plane_flights.model.Flight;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -37,4 +38,11 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
             "WHERE f.departureAirport.city = :depCity " +
             "AND f.arrivalAirport.city IS NOT NULL")
     List<String> findDistinctArrivalCitiesByDeparture(@Param("depCity") String departureCity);
+
+    List<Flight> findAllByFlightDate(Instant flightDate);
+
+    List<Flight> findAllByArrivalAirport(Airport arrivalAirport);
+
+    @Query("SELECT f FROM Flight f JOIN FETCH f.departureAirport JOIN FETCH f.arrivalAirport")
+    List<Flight> findAllWithAirports();
 }

@@ -15,13 +15,13 @@ import lombok.Setter;
 public class Airport {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    private String airportName;
+    @Column(name = "iata_code", unique = true)
+    private String iataCode;
 
     @Column(unique = true)
-    private String iataCode;
+    private String icao;
+
+    private String airportName;
 
     private String countryName;
 

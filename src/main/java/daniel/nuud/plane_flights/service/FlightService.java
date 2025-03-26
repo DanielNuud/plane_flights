@@ -1,6 +1,7 @@
 package daniel.nuud.plane_flights.service;
 
 import daniel.nuud.plane_flights.dto.api.AirportDataDTO;
+import daniel.nuud.plane_flights.model.Airline;
 import daniel.nuud.plane_flights.model.Airport;
 import daniel.nuud.plane_flights.model.Flight;
 import daniel.nuud.plane_flights.repository.AirportRepository;
@@ -29,33 +30,37 @@ public class FlightService {
     @Autowired
     private AirportRepository airportRepository;
 
+    @Autowired
+    private AirlineService airlineService;
+
     public void getFlights() {
         List<Flight> flights = flightRepository.findAll();
 
-        Set<String> iataCodes = new HashSet<>();
+        Set<String> icaoCodes = new HashSet<>();
 
         for (Flight flight : flights) {
             if (flight.getDepartureIataCode() != null) {
-                iataCodes.add(flight.getDepartureIataCode());
+                icaoCodes.add(flight.getDepartureIcaoCode());
             }
 
-            if (flight.getArrivalIataCode() != null) {
-                iataCodes.add(flight.getArrivalIataCode());
+            if (flight.getArrivalIcaoCode() != null) {
+                icaoCodes.add(flight.getArrivalIcaoCode());
             }
         }
 
-        for (String iataCode : iataCodes) {
+        for (String icaoCode : icaoCodes) {
 
-            if (!airportRepository.existsByIataCode(iataCode)) {
+            if (!airportRepository.existsByIcao(icaoCode)) {
 
-                List<AirportDataDTO> data = airportApiService.getAirportsData(iataCode);
+                List<AirportDataDTO> data = airportApiService.getAirportsData(icaoCode);
 
                 if (!data.isEmpty()) {
                     AirportDataDTO airportDataDTO = data.get(0);
 
                     Airport airport = new Airport();
 
-                    airport.setIataCode(iataCode);
+                    airport.setIcao(icaoCode);
+                    airport.setIataCode(airportDataDTO.getIataCode());
                     airport.setAirportName(airportDataDTO.getAirportName());
                     airport.setCountryName(airportDataDTO.getCountryName());
                     airport.setRegion(airportDataDTO.getRegion());
@@ -90,15 +95,15 @@ public class FlightService {
 
         for (Flight flight : flights) {
 
-            if (flight.getDepartureIataCode() != null && flight.getDepartureAirport() == null) {
-                Airport depAirport = airportRepository.findByIataCode(flight.getDepartureIataCode());
+            if (flight.getDepartureIcaoCode() != null && flight.getDepartureAirport() == null) {
+                Airport depAirport = airportRepository.findByIcao(flight.getDepartureIcaoCode());
                 if (depAirport != null) {
                     flight.setDepartureAirport(depAirport);
                 }
             }
 
-            if (flight.getArrivalIataCode() != null && flight.getArrivalAirport() == null) {
-                Airport arrAirport = airportRepository.findByIataCode(flight.getArrivalIataCode());
+            if (flight.getArrivalIcaoCode() != null && flight.getArrivalAirport() == null) {
+                Airport arrAirport = airportRepository.findByIcao(flight.getArrivalIcaoCode());
                 if (arrAirport != null) {
                     flight.setArrivalAirport(arrAirport);
                 }
@@ -107,7 +112,17 @@ public class FlightService {
         }
     }
 
-    public List<Flight> getAllFlights() {
-        return flightRepository.findAll();
+    public List<Flight> getAllFlightsWithAirlines() {
+        List<Flight> flights = flightRepository.findAllWithAirports();
+
+        for (Flight flight : flights) {
+            if (flight.getAirline() == null) {
+                Airline airline = airlineService.getOrFetch(flight.getAirlineIcao());
+                flight.setAirline(airline);
+                flightRepository.save(flight);
+            }
+        }
+
+        return flights;
     }
 }
