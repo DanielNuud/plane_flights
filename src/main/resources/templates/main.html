@@ -46,65 +46,80 @@
 
         <div class="row g-3">
             <div class="col-md-3">
-                <div class="filters">
-                    <h5>Sort / Filter</h5>
-                    <div class="mb-3">
-                        <label class="form-check-label"><input class="form-check-input" type="radio" name="sort" value="dateAsc"> Date Asc</label><br>
-                        <label class="form-check-label"><input class="form-check-input" type="radio" name="sort" value="dateDesc"> Date Desc</label><br>
-                        <label class="form-check-label"><input class="form-check-input" type="radio" name="sort" value="priceAsc"> Price Asc</label><br>
-                        <label class="form-check-label"><input class="form-check-input" type="radio" name="sort" value="priceDesc"> Price Desc</label>
-                    </div>
-                    <hr>
-                    <h6>Filter by Airline</h6>
-                    <div class="mb-3">
-                        <label class="form-check-label"><input class="form-check-input" type="checkbox" name="airline" value="A"> Airline A</label><br>
-                        <label class="form-check-label"><input class="form-check-input" type="checkbox" name="airline" value="B"> Airline B</label><br>
-                        <label class="form-check-label"><input class="form-check-input" type="checkbox" name="airline" value="C"> Airline C</label>
-                    </div>
-                    <button type="button" class="btn btn-secondary w-100">Apply</button>
+            <form th:action="@{/}" method="get">
+            <div class="filters" >
+                <h5>Sort / Filter</h5>
+                <div class="mb-3">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="sort" value="departureTime"
+                               th:checked="${param.sort == 'departureTime'}"> Departure Time
+                    </label><br>
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="sort" value="arrivalTime"
+                               th:checked="${param.sort == 'arrivalTime'}"> Arrival Time
+                    </label><br>
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="sort" value="airlineName"
+                               th:checked="${param.sort == 'airlineName'}"> Airline Name
+                    </label><br>
                 </div>
+
+                <button type="submit" class="btn btn-secondary w-100">Apply</button>
+            </div>
+        </form>
             </div>
 
-            <div class="col-md-9">
-                <div class="flight-list">
-                    <h5>Available Flights</h5>
-                    <div class="card shadow-sm rounded-3 mb-3 w-100" th:each="flight : ${flights}">
-                        <div class="card-body">
-                            <div class="row align-items-center text-center">
-                                <div class="col-md-4 d-flex align-items-center">
-                                    <img th:src="${flight.airline.logoUrl != null} ? ${flight.airline.logoUrl} : @{/images/nologo.png}"
-                                         class="rounded img-fluid me-3" alt="Airline logo" style="max-height:40px;">
-                                    <span class="fw-bold" th:text="${flight.airline.name}"></span>
-                                </div>
+        <div class="col-md-9">
+            <div class="flight-list">
+                <h5>Available Flights</h5>
+                <div class="card shadow-sm rounded-3 mb-3 w-100" th:each="flight : ${flights}">
+                    <div class="card-body">
+                        <div class="row align-items-center text-center">
 
-                                <div class="col-md-2">
-                                    <div class="fw-bold fs-5" th:text="${#dates.format(flight.departureTime, 'HH:mm')}"></div>
-                                    <div class="small text-muted">
-                                        <span th:text="${flight.departureAirport.city}"></span> (<span class="text-primary" th:text="${flight.departureIataCode}"></span>)
-                                    </div>
-                                </div>
+                            <div class="col-md-4 d-flex align-items-center">
+                                <img th:src="${flight.airline != null && flight.airline.logoUrl != null ? flight.airline.logoUrl : '/images/nologo.png'}"
+                                     alt="Airline Logo" class="rounded img-fluid me-3" style="max-height:40px;">
+                                <span class="fw-bold"
+                                      th:text="${flight.airline != null && flight.airline.name != null ? flight.airline.name : 'No Airline'}"></span>
+                            </div>
 
-                                <div class="col-md-2">
-                                    <div class="small text-muted"></div>
-                                    <hr class="my-1 text-primary">
-                                    <div class="small text-muted" th:text="${#dates.format(flight.flightDate, 'yyyy-MM-dd')}"></div>
-                                </div>
-
-                                <div class="col-md-2">
-                                    <div class="fw-bold fs-5" th:text="${#dates.format(flight.arrivalTime, 'HH:mm')}"></div>
-                                    <div class="small text-muted">
-                                        <span th:text="${flight.arrivalAirport.city}"></span> (<span class="text-primary" th:text="${flight.arrivalIataCode}"></span>)
-                                    </div>
-                                </div>
-
-                                <div class="col-md-2 text-center ">
-                                    <button class="btn btn-primary w-100 py-2">Buy</button>
+                            <div class="col-md-2">
+                                <div class="fw-bold fs-5"
+                                     th:text="${flight.departureTime != null ? #dates.format(flight.departureTime, 'HH:mm') : '-'}"></div>
+                                <div class="small text-muted">
+                                    <span th:text="${flight.departureAirport != null && flight.departureAirport.city != null ? flight.departureAirport.city : '-'}"></span>
+                                    (<span class="text-primary"
+                                           th:text="${flight.departureIataCode != null ? flight.departureIataCode : '-'}"></span>)
                                 </div>
                             </div>
+
+                            <div class="col-md-2">
+                                <div class="small text-muted"
+                                     th:text="${flight.duration != null ? flight.duration : '-'}"></div>
+                                <hr class="my-1 text-primary">
+                                <div class="small text-muted"
+                                     th:text="${flight.flightDate != null ? #dates.format(flight.flightDate, 'yyyy-MM-dd') : '-'}"></div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="fw-bold fs-5"
+                                     th:text="${flight.arrivalTime != null ? #dates.format(flight.arrivalTime, 'HH:mm') : '-'}"></div>
+                                <div class="small text-muted">
+                                    <span th:text="${flight.arrivalAirport != null && flight.arrivalAirport.city != null ? flight.arrivalAirport.city : '-'}"></span>
+                                    (<span class="text-primary"
+                                           th:text="${flight.arrivalIataCode != null ? flight.arrivalIataCode : '-'}"></span>)
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 text-center ">
+                                <button class="btn btn-primary w-100 py-2">Buy</button>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </div>
 </div>

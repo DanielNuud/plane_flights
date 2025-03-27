@@ -9,10 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
+
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
@@ -40,7 +38,7 @@ public class FlightApiService {
         FlightsResponseDTO response = webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/flights")
-                        .queryParam("access_key", accessKey)
+                        .queryParam("access_key", "f2b8adc7e51d804d0509c993fdd50d33")
                         .queryParam("limit", 25)
                         .build())
                 .retrieve()
@@ -97,6 +95,11 @@ public class FlightApiService {
                 if (flightDataDTO.getArrival().getIcaoCode() != null) {
                     flight.setArrivalIcaoCode(flightDataDTO.getArrival().getIcaoCode());
                 }
+
+                Duration duration = Duration.between(flight.getDepartureTime(), flight.getArrivalTime());
+                long hours = duration.toHours();
+                long minutes = duration.minusHours(hours).toMinutes();
+                flight.setDuration(hours + "h " + minutes + "m");
 
                 flightRepository.save(flight);
             });

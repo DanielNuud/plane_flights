@@ -8,6 +8,7 @@ import daniel.nuud.plane_flights.repository.AirportRepository;
 import daniel.nuud.plane_flights.repository.FlightRepository;
 import daniel.nuud.plane_flights.service.api.AirportApiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -124,5 +125,22 @@ public class FlightService {
         }
 
         return flights;
+    }
+
+    public List<String> getDistinctDepartureCities() {
+        return flightRepository.findDistinctDepartureCities();
+    }
+
+    public List<Flight> getSortedList (String sort) {
+        Sort sorting = Sort.unsorted();
+
+        if ("airlineName".equals(sort))
+            sorting = Sort.by("airlineName");
+        else if ("departureTime".equals(sort))
+            sorting = Sort.by("departureTime");
+        else if ("arrivalTime".equals(sort))
+            sorting = Sort.by("arrivalTime");
+
+        return flightRepository.findAllWithAirportsSorted(sorting);
     }
 }

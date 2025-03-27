@@ -2,6 +2,7 @@ package daniel.nuud.plane_flights.repository;
 
 import daniel.nuud.plane_flights.model.Airport;
 import daniel.nuud.plane_flights.model.Flight;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -45,4 +46,7 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
 
     @Query("SELECT f FROM Flight f JOIN FETCH f.departureAirport JOIN FETCH f.arrivalAirport")
     List<Flight> findAllWithAirports();
+
+    @Query("SELECT f FROM Flight f LEFT JOIN FETCH f.departureAirport LEFT JOIN FETCH f.arrivalAirport LEFT JOIN FETCH f.airline")
+    List<Flight> findAllWithAirportsSorted(Sort sort);
 }

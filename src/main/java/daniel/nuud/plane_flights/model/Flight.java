@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.Duration;
 import java.time.Instant;
 
 @Entity
@@ -25,6 +26,8 @@ public class Flight {
     private Instant arrivalTime;
     private String airlineName;
     private String flightNumber;
+
+    private String duration;
 
     private String airlineIata;
     private String airlineIcao;
