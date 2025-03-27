@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class HomeController {
     private FlightService flightService;
 
     @GetMapping("/")
-    public String home(Model model) {
+    public String home(@RequestParam(value = "sort", required = false) String sort, Model model) {
 //        List<FlightDataDTO> flights = flightApiService.getRealTimeFlights();
 //        flightService.getFlights();
         List<Airport> airports = airportService.getAllAirports();
@@ -36,7 +37,7 @@ public class HomeController {
         List<String> departureCities = flightService.findDistinctDepartureCities();
         List<String> arrivalCities = flightService.findDistinctArrivalCities();
 
-        List<Flight> flightList = flightService.getAllFlightsWithAirlines();
+        List<Flight> flightList = flightService.getSortedList(sort);
 
         model.addAttribute("departureCities", departureCities);
         model.addAttribute("arrivalCities", arrivalCities);
