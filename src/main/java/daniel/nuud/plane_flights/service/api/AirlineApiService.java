@@ -21,6 +21,11 @@ public class AirlineApiService {
     }
 
     public List<AirlineDataDTO> getAirlineData(String icaoCode) {
+        if (icaoCode == null || icaoCode.length() < 3) {
+            log.warn("Skipping airline fetch — invalid ICAO code '{}'", icaoCode);
+            return null;
+        }
+
         log.info("Fetching airline with icaoCode = {}", icaoCode);
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
