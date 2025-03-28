@@ -24,4 +24,10 @@ public class AirportDataDTO {
 
     @JsonProperty("region")
     private String region;
+
+    @JsonProperty("latitude")
+    private Double latitude;
+
+    @JsonProperty("longitude")
+    private Double longitude;
 }

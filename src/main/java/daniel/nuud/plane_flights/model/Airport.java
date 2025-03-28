@@ -28,4 +28,8 @@ public class Airport {
     private String region;
 
     private String city;
+
+    private Double longitude;
+
+    private Double latitude;
 }

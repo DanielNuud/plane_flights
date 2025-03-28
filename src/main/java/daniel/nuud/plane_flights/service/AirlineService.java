@@ -28,9 +28,17 @@ public class AirlineService {
                 airline.setIcao(dto.getIcao());
                 airline.setName(dto.getName());
                 airline.setLogoUrl(dto.getLogo_url());
+                System.out.printf("ICAO: %s | IATA: %s | Airline: %s%n", icao, dto.getIata(), dto.getName());
+
                 return airlineRepository.save(airline);
             }
-            return null;
+            return airlineRepository.findById("UNKNOWN").orElseGet(() -> {
+                Airline unknownAirline = new Airline();
+                unknownAirline.setIcao("UNKNOWN");
+                unknownAirline.setName("Unknown Airline");
+                unknownAirline.setLogoUrl("/images/nologo.png");
+                return airlineRepository.save(unknownAirline);
+            });
         });
     }
 }
