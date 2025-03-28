@@ -1,6 +1,7 @@
 package daniel.nuud.plane_flights.service;
 
 import daniel.nuud.plane_flights.dto.api.AirportDataDTO;
+import daniel.nuud.plane_flights.exception.ResourceNotFoundException;
 import daniel.nuud.plane_flights.model.Airline;
 import daniel.nuud.plane_flights.model.Airport;
 import daniel.nuud.plane_flights.model.Flight;
@@ -18,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class FlightService {
@@ -33,6 +35,11 @@ public class FlightService {
 
     @Autowired
     private AirlineService airlineService;
+
+    public Flight getFlightById(Long id) {
+        return flightRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Flight with id " + id + " not found"));
+    }
 
     public void getFlights() {
         List<Flight> flights = flightRepository.findAll();
@@ -141,6 +148,11 @@ public class FlightService {
         else if ("arrivalTime".equals(sort))
             sorting = Sort.by("arrivalTime");
 
-        return flightRepository.findAllWithAirportsSorted(sorting);
+        List<Flight> flights = flightRepository.findAllWithAirportsSorted(sorting);
+
+        Instant now = Instant.now();
+        return flights.stream()
+                .filter(flight -> flight.getDepartureTime() != null && flight.getDepartureTime().isAfter(now))
+                .collect(Collectors.toList());
     }
 }

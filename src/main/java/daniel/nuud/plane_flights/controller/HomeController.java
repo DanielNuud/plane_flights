@@ -3,6 +3,7 @@ package daniel.nuud.plane_flights.controller;
 import daniel.nuud.plane_flights.dto.api.FlightDataDTO;
 import daniel.nuud.plane_flights.model.Airport;
 import daniel.nuud.plane_flights.model.Flight;
+import daniel.nuud.plane_flights.repository.FlightRepository;
 import daniel.nuud.plane_flights.service.AirportService;
 import daniel.nuud.plane_flights.service.api.FlightApiService;
 import daniel.nuud.plane_flights.service.FlightService;
@@ -26,6 +27,9 @@ public class HomeController {
 
     @Autowired
     private FlightService flightService;
+
+    @Autowired
+    private FlightRepository flightRepository;
 
     @GetMapping("/")
     public String home(@RequestParam(value = "sort", required = false) String sort, Model model) {

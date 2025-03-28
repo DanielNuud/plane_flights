@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -35,6 +36,13 @@ public class FlightController {
         List<Flight> flights = flightService.getSearchedFlights(departure, departureDate);
         model.addAttribute("flights", flights);
         return "flights";
+    }
+
+    @GetMapping("/flights/{id}")
+    public String showFlight(@PathVariable("id") Long id, Model model) {
+        Flight flight = flightService.getFlightById(id);
+        model.addAttribute("flight", flight);
+        return "flight-details";
     }
 
 
