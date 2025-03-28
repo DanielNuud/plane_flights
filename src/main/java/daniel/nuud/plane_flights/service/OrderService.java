@@ -42,7 +42,7 @@ public class OrderService {
         order.setPassengerEmail(passengerEmail);
         order.setPassengerPhone(passengerPhone);
         order.setSeatType(seatType);
-        order.setPaymentMethod(paymentMethod);
+        order.setBank(paymentMethod);
 
         return orderRepository.save(order);
     }

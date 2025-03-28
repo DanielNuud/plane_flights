@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.Instant;
+
 @Entity
 @Getter
 @Setter
@@ -32,5 +34,7 @@ public class Order {
 
     private String seatType;
 
-    private String paymentMethod;
+    private String bank;
+
+    private Instant createdAt = Instant.now();
 }
