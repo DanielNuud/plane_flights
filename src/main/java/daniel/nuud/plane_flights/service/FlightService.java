@@ -73,6 +73,8 @@ public class FlightService {
                     airport.setCountryName(airportDataDTO.getCountryName());
                     airport.setRegion(airportDataDTO.getRegion());
                     airport.setCity(airportDataDTO.getCity());
+                    airport.setLatitude(airportDataDTO.getLatitude());
+                    airport.setLongitude(airportDataDTO.getLongitude());
                     airportRepository.save(airport);
                 }
 
@@ -120,19 +122,19 @@ public class FlightService {
         }
     }
 
-    public List<Flight> getAllFlightsWithAirlines() {
-        List<Flight> flights = flightRepository.findAllWithAirports();
-
-        for (Flight flight : flights) {
-            if (flight.getAirline() == null) {
-                Airline airline = airlineService.getOrFetch(flight.getAirlineIcao());
-                flight.setAirline(airline);
-                flightRepository.save(flight);
-            }
-        }
-
-        return flights;
-    }
+//    public List<Flight> getAllFlightsWithAirlines() {
+//        List<Flight> flights = flightRepository.findAllWithAirports();
+//
+//        for (Flight flight : flights) {
+//            if (flight.getAirline() == null) {
+//                Airline airline = airlineService.getOrFetch(flight.getAirlineIcao());
+//                flight.setAirline(airline);
+//                flightRepository.save(flight);
+//            }
+//        }
+//
+//        return flights;
+//    }
 
     public List<String> getDistinctDepartureCities() {
         return flightRepository.findDistinctDepartureCities();
@@ -149,6 +151,14 @@ public class FlightService {
             sorting = Sort.by("arrivalTime");
 
         List<Flight> flights = flightRepository.findAllWithAirportsSorted(sorting);
+
+        for (Flight flight : flights) {
+            if (flight.getAirline() == null) {
+                Airline airline = airlineService.getOrFetch(flight.getAirlineIcao());
+                flight.setAirline(airline);
+                flightRepository.save(flight);
+            }
+        }
 
         Instant now = Instant.now();
         return flights.stream()

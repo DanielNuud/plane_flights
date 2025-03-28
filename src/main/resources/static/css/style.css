@@ -26,10 +26,21 @@
 }
 
 .form-container {
-    max-width: 450px;
+    max-width: 300px;
     margin: 50px auto;
     padding: 25px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0,0,0,.1);
 }
+
+body {
+    background-color: #f7f7f7;
+}
+.card {
+    border-radius: 15px;
+    box-shadow: 0 4px 8px
+    rgba(0,0,0,0.1);
+}
+
+.section-header { border-bottom: 2px solid #e0e0e0; margin-bottom: 20px; padding-bottom: 10px; }
