@@ -5,11 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flight Booking Details</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { background-color: #f7f7f7; }
-        .card { border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .section-header { border-bottom: 2px solid #e0e0e0; margin-bottom: 20px; padding-bottom: 10px; }
-    </style>
 </head>
 <body>
 
@@ -46,8 +41,8 @@
         <div class="col-md-6 mb-4">
             <div class="card p-4">
                 <h4 class="section-header">Booking Information</h4>
-                <form method="post" th:action="@{/buy/{id}(id=${flight.id})}">
-                    <div class="mb-3">
+                <form method="post" th:action="@{'/flight/' + ${flight.id} + '/order'}">
+                <div class="mb-3">
                         <label class="form-label">First name</label>
                         <input type="text" class="form-control" name="firstName" th:value="${user.firstName}" required>
                     </div>
