@@ -24,3 +24,12 @@
 .card-body img {
     object-fit: cover;
 }
+
+.form-container {
+    max-width: 450px;
+    margin: 50px auto;
+    padding: 25px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,.1);
+}
