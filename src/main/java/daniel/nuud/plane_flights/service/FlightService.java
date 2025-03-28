@@ -16,6 +16,8 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -165,4 +167,30 @@ public class FlightService {
                 .filter(flight -> flight.getDepartureTime() != null && flight.getDepartureTime().isAfter(now))
                 .collect(Collectors.toList());
     }
+
+    public List<Flight> searchFlights(String departure, String arrival, String dateStr, int passengers) {
+        if (departure == null || arrival == null || dateStr == null) {
+            return Collections.emptyList();
+        }
+
+        LocalDate localDate;
+        try {
+            localDate = LocalDate.parse(dateStr);
+        } catch (DateTimeParseException e) {
+            return Collections.emptyList();
+        }
+
+        return flightRepository.findAll().stream()
+                .filter(f -> f.getDepartureAirport() != null
+                        && departure.equalsIgnoreCase(f.getDepartureAirport().getCity()))
+                .filter(f -> f.getArrivalAirport() != null
+                        && arrival.equalsIgnoreCase(f.getArrivalAirport().getCity()))
+                .filter(f -> {
+                    if (f.getDepartureTime() == null) return false;
+                    LocalDate flightDate = f.getDepartureTime().atZone(ZoneOffset.UTC).toLocalDate();
+                    return flightDate.equals(localDate);
+                })
+                .collect(Collectors.toList());
+    }
+
 }

@@ -21,30 +21,10 @@ import java.util.List;
 public class FlightController {
 
     @Autowired
-    private FlightApiService flightApiService;
-
-    @Autowired
     private FlightService flightService;
 
     @Autowired
     private UserService userService;
-
-//    @GetMapping("/flights")
-//    public String getFlights(Model model) {
-//        List<FlightDataDTO> flights = flightApiService.getRealTimeFlights();
-//        model.addAttribute("flights", flights);
-//        return "flights";
-//    }
-
-    @GetMapping("/flights")
-    public String searchFlights(@RequestParam("departure")  String departure,
-                                @RequestParam("departureDate") String departureDate,
-                                Model model) {
-
-        List<Flight> flights = flightService.getSearchedFlights(departure, departureDate);
-        model.addAttribute("flights", flights);
-        return "flights";
-    }
 
     @GetMapping("/flight/{id}")
     public String showFlight(@PathVariable("id") Long id,
@@ -56,7 +36,5 @@ public class FlightController {
         model.addAttribute("user", user);
         return "flight-details";
     }
-
-
 
 }

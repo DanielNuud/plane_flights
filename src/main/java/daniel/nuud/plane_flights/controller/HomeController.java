@@ -8,11 +8,13 @@ import daniel.nuud.plane_flights.service.AirportService;
 import daniel.nuud.plane_flights.service.api.FlightApiService;
 import daniel.nuud.plane_flights.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +49,29 @@ public class HomeController {
         model.addAttribute("arrivalCities", arrivalCities);
         model.addAttribute("flights", flightList);
         model.addAttribute("airports", airports);
+        return "main";
+    }
+
+    @GetMapping("/flights")
+    public String getSearchedFlights(
+            @RequestParam(required = false) String departure,
+            @RequestParam(required = false) String arrival,
+            @RequestParam(required = false) String departureDate,
+            @RequestParam(required = false, defaultValue = "1") int passengers,
+            Model model
+    ) {
+
+        List<Flight> flights = flightService.searchFlights(departure, arrival, departureDate, passengers);
+
+        model.addAttribute("flights", flights);
+
+        model.addAttribute("selectedDeparture", departure);
+        model.addAttribute("selectedArrival", arrival);
+        model.addAttribute("selectedDate", departureDate);
+        model.addAttribute("selectedPassengers", passengers);
+
+        model.addAttribute("departureCities", flightService.findDistinctDepartureCities());
+
         return "main";
     }
 }
